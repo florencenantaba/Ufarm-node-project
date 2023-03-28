@@ -3,15 +3,25 @@ const app = express();
 const path = require('path');
 const router = express.Router();
 
-const mongoose= require("mongoose")
+const mongoose= require("mongoose");
+const bodyParser= require("body-parser");
+
 // we are creating an environment
 // require("dotenv").config();
 const config = require("./config/database")
-const employeeRoute = require("./routes/employeeRoute")
-const aboutRoute = require("./routes/aboutRoute")
-const contactRoute = require("./routes/contactRoute")
-const agricofficer = require("./routes/agricRoute");
+const employeeRoutes = require("./routes/employeeRoutes")
+const aboutRoutes = require("./routes/aboutRoutes")
+const contactRoutes = require("./routes/contactRoutes")
+const agricRoutes = require("./routes/agricRoutes");
+const registerRoutes = require("./routes/registerRoutes");
 // const {config}  = require('process');
+
+// support parsing of application/json type post data
+app.use(bodyParser.json());
+
+//support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // creating a connection between the controller and database
 mongoose.connect(config.database,{
@@ -49,10 +59,12 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use("/about",router)
 
 
-app.use("/",employeeRoute)
-app.use("/",aboutRoute)
-app.use("/",contactRoute)
-app.use("/",agricofficer)
+app.use("/",employeeRoutes);
+app.use("/",aboutRoutes);
+app.use("/",contactRoutes);
+app.use("/",agricRoutes);
+app.use("/",registerRoutes);
+
 
 
 
