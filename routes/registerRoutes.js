@@ -20,12 +20,21 @@ router.post("/register", async(req,res)=>{
         console.log(err)
     }
 })
+
+
 // we redirect to a path and render to a file
 router.get("/students", async(req,res)=>{
     try{
         let items = await Register.find();
         // console.log(items)
-        res.render("students",{students:items})
+        let fees= await Register.aggregate([
+            {
+                //"$group": {category: "$parents",
+               "$group": {_id: "$all",
+                totalFees: {$sum: "$fees"}   }
+            }
+        ])
+        res.render("students",{students:items, total:fees[0]})
     }
     catch(err){
         console.log(err)
@@ -33,4 +42,54 @@ router.get("/students", async(req,res)=>{
     }
 });
 
+router.post("/students/delete", async(req,res)=>{
+    try{
+    // deleteone is a inbuilt record
+    await Register.deleteOne({_id:req.body.id});
+    res.redirect("back")
+    }
+
+    catch(err){
+        console.log(err)
+    }
+});
+
+router.get("/edit_student/:id", async(req,res)=>{
+    try{
+        const item= await Register.findOne({_id:req.params.id});
+        res.render("student_edit", {student:item});
+    }
+    catch(err){
+        res.send("could not find student");
+        console.log(err)
+    }
+});
+
+
+
+router.post("/edit_student", async(req,res)=>{
+    try{
+        await Register.findOneAndUpdate({_id:req.query.id},req.body)
+        res.redirect("/students")
+    }
+    catch(err){
+        res.send("failed to update student details")
+        console.log(err)
+    }
+    
+});
+
+
+
+
+
+
+
+
+
+
+
 module.exports = router
+
+
+

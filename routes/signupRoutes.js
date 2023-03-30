@@ -3,8 +3,8 @@ const router = express.Router();
 
 
 
-router.get("/agric",(req,res)=>{
-    res.render("Agricofficer")
+router.get("/signup",(req,res)=>{
+    res.render("signup2")
 });
 
 module.exports = router

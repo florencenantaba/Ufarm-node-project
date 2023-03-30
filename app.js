@@ -8,12 +8,13 @@ const bodyParser= require("body-parser");
 
 // we are creating an environment
 // require("dotenv").config();
-const config = require("./config/database")
-const employeeRoutes = require("./routes/employeeRoutes")
-const aboutRoutes = require("./routes/aboutRoutes")
-const contactRoutes = require("./routes/contactRoutes")
+const config = require("./config/database");
+const employeeRoutes = require("./routes/employeeRoutes");
+const aboutRoutes = require("./routes/aboutRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 const agricRoutes = require("./routes/agricRoutes");
 const registerRoutes = require("./routes/registerRoutes");
+const signupRoutes= require("./routes/signupRoutes");
 // const {config}  = require('process');
 
 // support parsing of application/json type post data
@@ -64,6 +65,7 @@ app.use("/",aboutRoutes);
 app.use("/",contactRoutes);
 app.use("/",agricRoutes);
 app.use("/",registerRoutes);
+app.use("/",signupRoutes);
 
 
 
