@@ -5,17 +5,42 @@ const router = express.Router();
 
 const mongoose= require("mongoose");
 const bodyParser= require("body-parser");
+const session= require("express-session");
+const passport = require("passport");
+
 
 // we are creating an environment
 // require("dotenv").config();
+const User = require("./models/userModel")
+// importing database file directly
 const config = require("./config/database");
 const employeeRoutes = require("./routes/employeeRoutes");
 const aboutRoutes = require("./routes/aboutRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const agricRoutes = require("./routes/agricRoutes");
 const registerRoutes = require("./routes/registerRoutes");
+const projectRoutes= require("./routes/projectRoutes");
 const signupRoutes= require("./routes/signupRoutes");
+const loginRoutes= require("./routes/loginRoutes");
+const aoRoutes= require("./routes/aoRoutes");
+const ufRoutes= require("./routes/ufRoutes");
+const foRoutes= require("./routes/foRoutes");
+
 // const {config}  = require('process');
+
+app.use(session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false
+}))
+
+// * Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 // support parsing of application/json type post data
 app.use(bodyParser.json());
@@ -65,9 +90,16 @@ app.use("/",aboutRoutes);
 app.use("/",contactRoutes);
 app.use("/",agricRoutes);
 app.use("/",registerRoutes);
+app.use("/",projectRoutes);
 app.use("/",signupRoutes);
+app.use("/",loginRoutes);
+app.use("/",aoRoutes);
+app.use("/",ufRoutes);
+app.use("/",foRoutes);
 
-
+app.get("*", (req,res)=>{
+    res.status(404).send("page does not exist")
+})
 
 
 

@@ -9,9 +9,6 @@ router.get("/contact", (req,res)=>{
     res.render("contact")
 })
 
-
-
-
 // node sees files in modules
 
 module.exports = router
