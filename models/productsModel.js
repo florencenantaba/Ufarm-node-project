@@ -9,6 +9,15 @@ const productsSchema = new mongoose.Schema({
         type:Number,
         
     },
+
+    // coaching    product_name: {
+        type:String,
+        
+    
+    status: {
+        type:String, 
+        default:"pending"
+    },
     
 
 })

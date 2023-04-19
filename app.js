@@ -25,6 +25,7 @@ const loginRoutes= require("./routes/loginRoutes");
 const aoRoutes= require("./routes/aoRoutes");
 const ufRoutes= require("./routes/ufRoutes");
 const foRoutes= require("./routes/foRoutes");
+const productRoutes= require("./routes/productRoutes");
 
 // const {config}  = require('process');
 
@@ -41,7 +42,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
+app.use(express.static(path.join(__dirname , "public/products")))
 // support parsing of application/json type post data
 app.use(bodyParser.json());
 
@@ -96,6 +97,7 @@ app.use("/",loginRoutes);
 app.use("/",aoRoutes);
 app.use("/",ufRoutes);
 app.use("/",foRoutes);
+app.use("/",productRoutes);
 
 app.get("*", (req,res)=>{
     res.status(404).send("page does not exist")
